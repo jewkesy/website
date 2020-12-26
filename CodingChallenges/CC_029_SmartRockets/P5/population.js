@@ -11,13 +11,30 @@ function Population() {
   // Amount parent rocket partners
   this.matingpool = [];
 
+  this.maxfitIdx = 0;
   // Associates a rocket to an array index
   for (var i = 0; i < this.popsize; i++) {
     this.rockets[i] = new Rocket();
   }
 
+  this.allStopped = function() {
+    for (var i = 0; i < this.rockets.length; i++) {
+      var stopped = true;
+      if (this.rockets[i].completed || this.rockets[i].crashed) {
+        stopped = true;
+      } else {
+        return false
+        stopped = false;
+      }
+      if (!stopped) break;
+    }
+
+    return stopped
+  }
+
   this.evaluate = function() {
     var maxfit = 0;
+    
     // Iterate through all rockets and calcultes their fitness
     for (var i = 0; i < this.popsize; i++) {
       // Calculates fitness
@@ -25,6 +42,7 @@ function Population() {
       // If current fitness is greater than max, then make max equal to current
       if (this.rockets[i].fitness > maxfit) {
         maxfit = this.rockets[i].fitness;
+        this.maxfitIdx = i;
       }
     }
     // Normalises fitnesses
@@ -46,6 +64,7 @@ function Population() {
   this.selection = function() {
     var newRockets = [];
     for (var i = 0; i < this.rockets.length; i++) {
+      
       // Picks random dna
       var parentA = random(this.matingpool).dna;
       var parentB = random(this.matingpool).dna;
@@ -54,9 +73,11 @@ function Population() {
       child.mutation();
       // Creates new rocket with child dna
       newRockets[i] = new Rocket(child);
+      if (i == this.maxfitIdx) newRockets[i].best = true;
     }
     // This instance of rockets are the new rockets
     this.rockets = newRockets;
+    generationCount++;
   };
 
   // Calls for update and show functions

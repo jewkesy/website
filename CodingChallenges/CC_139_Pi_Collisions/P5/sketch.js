@@ -10,7 +10,7 @@ let block2;
 let clack;
 
 let count = 0;
-let digits = 7;
+let digits = 3;
 let countDiv;
 const timeSteps = 10 ** (digits - 1);
 

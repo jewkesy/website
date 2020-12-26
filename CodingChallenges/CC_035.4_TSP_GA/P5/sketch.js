@@ -10,15 +10,18 @@
 // https://editor.p5js.org/codingtrain/sketches/EGjTrkkf9
 
 var cities = [];
-var totalCities = 12;
+var totalCities = 25;
 
-var popSize = 500;
+var popSize = 250;
 var population = [];
 var fitness = [];
 
 var recordDistance = Infinity;
 var bestEver;
 var currentBest;
+
+var maxRuns = (popSize*totalCities)/2
+var counter = 0
 
 var statusP;
 
@@ -38,12 +41,17 @@ function setup() {
 }
 
 function draw() {
+  document.getElementById('distance').innerHTML = recordDistance
   background(0);
 
-  // GA
-  calculateFitness();
-  normalizeFitness();
-  nextGeneration();
+  if (counter < maxRuns) {
+    console.log(counter, maxRuns)
+    // GA
+    calculateFitness();
+    normalizeFitness();
+    nextGeneration();
+  }
+
 
   stroke(255);
   strokeWeight(4);

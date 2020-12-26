@@ -16,6 +16,7 @@ function calculateFitness() {
     if (d < recordDistance) {
       recordDistance = d;
       bestEver = population[i];
+      counter = 0
     }
     if (d < currentRecord) {
       currentRecord = d;
@@ -27,6 +28,7 @@ function calculateFitness() {
     // available here: https://www.youtube.com/watch?v=HzaLIO9dLbA
     fitness[i] = 1 / (pow(d, 8) + 1);
   }
+  counter++
 }
 
 function normalizeFitness() {
